@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS</title>
+    <link rel="stylesheet" href="css/blogs.css">
+</head>
+
+<body>
+    <%- include("components/navbar") %>
+
+    <div class="container">
+        <% if (blogs.length==0) { %>
+            <h1>No blogs available.</h1>
+        <% } else { %>
+            <% blogs.map((blog)=> { %>
+                <div class="card">
+                    <div class="card-title"><%- blog.title %></div>
+                    <div class="card-subtitle"><%- blog.subTitle %></div>
+                    <div class="card-description"> <%- blog.description %> </div>
+                    <a href="/single/<%-blog.id%>">Read More</a>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</body>
+
+</html>

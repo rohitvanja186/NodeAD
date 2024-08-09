@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Blog Post</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .blog-post {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1em;
+            color: #34495e;
+            line-height: 1.8;
+        }
+
+        .button {
+            margin-left: 12rem;
+            padding: 7px 20px;  
+        }
+
+        .editBtn {
+            padding: 7px 20px; 
+            margin-left: 3rem; 
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1>My Tech Blog</h1>    
+    </nav>
+
+    <div class="blog-post">
+        <h2 class="title"><%- blog[0].title %></h2>
+        <h3 class="subtitle"><%- blog[0].subTitle %></h3>
+        <p class="description">
+            <%- blog[0].description %>
+        </p>
+        <span>Published on : <%- blog[0].createdAt.toISOString().slice(0,10) %></span>
+        <button class="button"><a href="/delete/<%-blog[0].id%>">Delete</button>
+        <button class="editBtn"><a href="/edit/<%-blog[0].id%>">Edit</button>
+    </div>
+</body>
+
+</html>
