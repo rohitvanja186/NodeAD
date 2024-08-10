@@ -1,10 +1,9 @@
 const express = require("express") // requiring express package
-const { blogs } = require("./model/index")
-const { renderCreateBlog, createBlog, allBlog, singleBlog, deleteBlog, editBlog, renderEditBlog } = require("./controller/blog/blogController")
 const app = express() // storing it in app, app vannay variable throughout use garxum
 
 // ROUTES HERE
 const blogRoute = require("./routes/blogRoute")
+const authRoute = require("./routes/authRoute")
 
 
 // database connection
@@ -20,6 +19,7 @@ app.use(express.static("public/"))
 //form bata data aae raxa parse garr nabhaye handle garr
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
 
 
 // //all blogs
@@ -49,6 +49,7 @@ app.use(express.urlencoded({extended:true}))
 // app.post('/editBlog/:id',editBlog)
 
 
+app.use("",authRoute)
 app.use("",blogRoute) // localhost:300 + /createBlog === localhost:3000/createBlog
 
 
