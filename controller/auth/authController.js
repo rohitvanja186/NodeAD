@@ -35,6 +35,33 @@ exports.renderLoginForm = (req,res) => {
     res.render("login.ejs")
 }
 
-exports.loginUser = (req,res) => {
+exports.loginUser = async (req,res) => {
     console.log(req.body)
+
+    const {email,password} = req.body
+
+    // SERVER SIDE VALIDATION
+    if(!email || !password){
+        return res.send("Email and password are required")
+    }
+
+    // Check if that email exist or not
+    const associatedDatawithEmail = await users.findAll({
+        where : {
+            email : email
+        }
+    })
+
+    if(associatedDatawithEmail.length == 0){
+        res.send("User with that email doesn't exists")
+    }else{
+        // check if passowrd also matches
+        const associatedEmailPassword = associatedDatawithEmail[0].password
+        const isMatched = bcrypt.compareSync(password,associatedEmailPassword)  // true or false return garxa
+        if(isMatched){
+            res.send("logged in success")
+        }else{
+            res.send("Invalid password")
+        }
+    }
 }
