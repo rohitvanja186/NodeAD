@@ -1,5 +1,6 @@
 const { users } = require("../../model")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 exports.renderRegisterForm = (req,res) => {
     res.render("register.ejs")
@@ -59,6 +60,12 @@ exports.loginUser = async (req,res) => {
         const associatedEmailPassword = associatedDatawithEmail[0].password
         const isMatched = bcrypt.compareSync(password,associatedEmailPassword)  // true or false return garxa
         if(isMatched){
+            // Generate token here
+            const token = jwt.sign({id:associatedDatawithEmail[0].id},process.env.SECREATEKEY,{
+                expiresIn : "30d"
+            })
+            res.cookie('token',token)
+
             res.send("logged in success")
         }else{
             res.send("Invalid password")

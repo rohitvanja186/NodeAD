@@ -1,5 +1,6 @@
 const express = require("express") // requiring express package
 const app = express() // storing it in app, app vannay variable throughout use garxum
+require("dotenv").config() // requiring dotenv and initializing it with default configuration
 
 // ROUTES HERE
 const blogRoute = require("./routes/blogRoute")
