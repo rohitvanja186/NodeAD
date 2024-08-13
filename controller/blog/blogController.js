@@ -5,6 +5,7 @@ exports.renderCreateBlog = (req, res) => {
 }
 
 exports.createBlog = async (req, res) => {
+    const userId = req.user[0].id
 
     // first approach
     const title = req.body.title
@@ -14,12 +15,12 @@ exports.createBlog = async (req, res) => {
     await blogs.create({
         title: title,
         subTitle: subTitle,
-        description: description
+        description: description,
+        userId: userId
     })
 
     // second approach
     // const {title, subTitle, description} = req.body
-    console.log(title, subTitle, description)
 
     // data ma halnu paryo
      
@@ -30,7 +31,6 @@ exports.createBlog = async (req, res) => {
 exports.allBlog = async (req, res) => {
     // blogs bhaney table bata bhako jati sab data blogs bhanney page ma lyaidey
     const allBlogs = await blogs.findAll()
-    console.log(allBlogs)
 
     // blogs vanney key naam ma allBlogs varaible ko value pass gareko blogs.ejs file ma
     res.render("blogs.ejs", {blogs:allBlogs})
@@ -98,7 +98,6 @@ exports.renderEditBlog = async (req, res) => {
 
 exports.editBlog = async (req,res) => {
     const id = req.params.id
-    console.log(req.body)
     const title = req.body.title
     const subTitle = req.body.subtitle
     const description = req.body.description

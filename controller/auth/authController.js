@@ -61,7 +61,7 @@ exports.loginUser = async (req,res) => {
         const isMatched = bcrypt.compareSync(password,associatedEmailPassword)  // true or false return garxa
         if(isMatched){
             // Generate token here
-            const token = jwt.sign({id:associatedDatawithEmail[0].id},process.env.SECREATEKEY,{
+            const token = jwt.sign({id:associatedDatawithEmail[0].id},process.env.SECRETKEY,{
                 expiresIn : "30d"
             })
             res.cookie('token',token)
