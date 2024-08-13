@@ -8,7 +8,7 @@ exports.isAuthenticated = async (req,res,next) => {
 
     // check if token given or not
     if(!token){
-        return res.send("First you need to login")
+        return res.redirct("/login")
     }
 
     // Verify token if it is legit or not 
@@ -28,6 +28,7 @@ exports.isAuthenticated = async (req,res,next) => {
         res.send("User with that token doesn't exist")
     }else{
         req.user = usersExists  //decryptedResult.id  
+        req.userId = usersExists[0].id
         next();
     }
 
