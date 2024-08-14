@@ -13,7 +13,7 @@ exports.createBlog = async (req, res) => {
     const description = req.body.description
     const filename = req.file.filename
 
-    if(!title || !description || !subTitle || !req.file) {
+    if(!title || !description || !subTitle || !filename) {
         return res.send("Please provide title, subTitle, description, file")
     }
 
