@@ -11,12 +11,15 @@
 
     <div class="container">
         <h1>Submit Your Content</h1>
-        <form action="/createBlog" method="post">
+        <form action="/createBlog" method="post" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
 
             <label for="subtitle">Subtitle:</label>
             <input type="text" id="subtitle" name="subtitle">
+
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" accept="image/*">
 
             <label for="description">Description:</label>
             <textarea id="description" name="description" required></textarea>

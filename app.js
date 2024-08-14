@@ -17,6 +17,7 @@ app.set("view engine", "ejs")
 
 // nodejs lie file access garna dey
 app.use(express.static("public/"))
+app.use(express.static("uploads/"))
  
 app.use(cookieParser())
 

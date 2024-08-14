@@ -12,16 +12,17 @@
     <%- include("components/navbar") %>
 
     <div class="container">
-        <% if (blogs.length==0) { %>
+        <% if (blogs.length == 0) { %>
             <h1>No blogs available.</h1>
         <% } else { %>
-            <% blogs.map((blog)=> { %>
+            <% blogs.map((blog) => { %>
                 <div class="card">
+                    <img src="<%- blog.image %>" alt="Blog Image" style="width:100%; height:auto;">
                     <div class="card-title"><%- blog.title %></div>
                     <div class="card-subtitle"><%- blog.subTitle %></div>
-                    <div class="card-description"> <%- blog.description %> </div>
-                    <p>Author : <%- blog.user.username %></p>
-                    <a href="/single/<%-blog.id%>">Read More</a>
+                    <div class="card-description"><%- blog.description %></div>
+                    <p style="color: #cb0f0f; font-weight: bold;">Author : <%- blog.user.username %></p>
+                    <a href="/single/<%- blog.id %>">Read More</a>
                 </div>
             <% }) %>
         <% } %>

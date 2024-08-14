@@ -11,12 +11,18 @@ exports.createBlog = async (req, res) => {
     const title = req.body.title
     const subTitle = req.body.subtitle
     const description = req.body.description
+    const filename = req.file.filename
+
+    if(!title || !description || !subTitle || !req.file) {
+        return res.send("Please provide title, subTitle, description, file")
+    }
 
     await blogs.create({
         title: title,
         subTitle: subTitle,
         description: description,
-        userId: userId
+        userId: userId,
+        image: process.env.PROJECT_URL + filename
     })
 
     // second approach

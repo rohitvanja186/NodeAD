@@ -8,7 +8,7 @@ exports.isAuthenticated = async (req,res,next) => {
 
     // check if token given or not
     if(!token){
-        return res.redirct("/login")
+        return res.redirect("/login")
     }
 
     // Verify token if it is legit or not 
