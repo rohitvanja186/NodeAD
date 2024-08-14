@@ -65,8 +65,7 @@ exports.loginUser = async (req,res) => {
                 expiresIn : "30d"
             })
             res.cookie('token',token)
-
-            res.send("logged in success")
+            res.redirect("/")
         }else{
             res.send("Invalid password")
         }

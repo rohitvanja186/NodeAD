@@ -18,6 +18,7 @@
         <% } else { %>
             <% myBlogs.map((blog)=> { %>
                 <div class="card">
+                    <img src="<%- blog.image %>" alt="Blog Image" style="width:100%; height:auto;">
                     <div class="card-title"><%- blog.title %></div>
                     <div class="card-subtitle"><%- blog.subTitle %></div>
                     <div class="card-description"> <%- blog.description %> </div>
