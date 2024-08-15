@@ -76,22 +76,38 @@ exports.singleBlog = async (req, res) => {
 
     console.log(blog)
 
-    res.render("singleBlog.ejs", { blog: blog })
+    res.render("singleBlog.ejs", { blog: blog, currentUser: req.user })
 }
 
 
 
 exports.deleteBlog = async (req, res) => {
-    const id = req.params.id
+    const id = req.params.id;
+    const oldDatas = req.oldDatas; // Get old data from req passed from isValidUser middleware
 
-    // blogs bhanney table bata tyo id ko data delete garr
-    const data = await blogs.destroy({
+    // Delete the blog from the database
+    await blogs.destroy({
         where: {
             id: id
         }
-    })
-    res.redirect('/')
-}
+    });
+
+    // Optionally, delete the associated image file
+    const oldImagePath = oldDatas[0].image;
+    const lengthOfUnwanted = "http://localhost:3000/".length;
+    const fileNameInUploadFolder = oldImagePath.slice(lengthOfUnwanted);
+
+    fs.unlink('uploads/' + fileNameInUploadFolder, (err) => {
+        if (err) {
+            console.log("Error while deleting file", err);
+        } else {
+            console.log("File deleted successfully");
+        }
+    });
+
+    res.redirect('/');
+};
+
 
 
 
@@ -112,11 +128,12 @@ exports.renderEditBlog = async (req, res) => {
 
 
 exports.editBlog = async (req, res) => {
-    const userId = req.userId
+    // const userId = req.userId
     const id = req.params.id
     const title = req.body.title
     const subTitle = req.body.subtitle
     const description = req.body.description
+    const oldDatas = req.oldDatas   // Get old data from req passed from isValidUser middleware
     // const oldDatas = await blogs.findAll({
     //     where: {
     //         id: id
@@ -131,7 +148,9 @@ exports.editBlog = async (req, res) => {
     let fileUrl;
     if (req.file) {
         fileUrl = process.env.PROJECT_URL + req.file.filename
-        // to remove file
+
+
+        // Delete old image if a new one is uploaded
         const oldImagePath = oldDatas[0].image
         // console.log(oldImagePath)   // http://localhost:3000/1723654479881-random.png
         const lengthOfUnwanted = "http://localhost:3000/".length

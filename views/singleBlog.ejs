@@ -54,22 +54,42 @@
             line-height: 1.8;
         }
 
-        .button {
-            margin-left: 12rem;
-            padding: 7px 20px;  
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .button,
+        .editBtn {
+            padding: 7px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .editBtn {
-            padding: 7px 20px; 
-            margin-left: 3rem; 
+            background-color: #3498db;
+            margin-left: 10px;
         }
 
+        .button a,
+        .editBtn a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .button a:hover,
+        .editBtn a:hover {
+            color: #f4f4f4;
+        }
     </style>
 </head>
 
 <body>
     <nav class="navbar">
-        <h1>My Tech Blog</h1>    
+        <h1>My Tech Blog</h1>
     </nav>
 
     <div class="blog-post">
@@ -79,10 +99,16 @@
         <p class="description">
             <%- blog[0].description %>
         </p>
-        <span>Published on : <%- blog[0].createdAt.toISOString().slice(0,10) %></span>
+        <span>Published on : <%- blog[0].createdAt.toISOString().slice(0, 10) %></span>
         <p>Author : <%- blog[0].user.username %></p>
-        <button class="button"><a href="/delete/<%-blog[0].id%>">Delete</button>
-        <button class="editBtn"><a href="/edit/<%-blog[0].id%>">Edit</button>
+
+        <!-- Conditionally render Edit and Delete buttons only if the user is the author -->
+        <% if (blog[0].userId === currentUser[0].id) { %>
+            <div class="buttons">
+                <button class="button"><a href="/delete/<%- blog[0].id %>">Delete</a></button>
+                <button class="editBtn"><a href="/edit/<%- blog[0].id %>">Edit</a></button>
+            </div>
+        <% } %>
     </div>
 </body>
 
