@@ -104,15 +104,23 @@ exports.checkForgotPassword = async (req,res) => {
         }
     })
 
-    if(emailExists.lenth == 0){
+    if(emailExists.length == 0){
         res.send("User with that email doesn't exist")
     }else{
+        const generatedOtp = Math.floor(10000 * Math.random(9999))
+        console.log(generatedOtp)
         // tyo email ma otp pathauney
         await sendEmail({
             email: email,
             subject: "Forgot Password OTP",
-            otp: 1234
+            otp: generatedOtp
         })
+
+        emailExists[0].otp = generatedOtp
+        emailExists[0].otpGeneratedTime = Date.now()
+        await emailExists[0].save()
+
+        res.redirect('/otp?email=' + email)
 
         // // mass notification pathaunu ko lagi
         // for(var i = 0; i< allUsers.length; i++){
@@ -122,7 +130,38 @@ exports.checkForgotPassword = async (req,res) => {
         //         otp: "This is to notify that we are closing soon"
         //     })
         // }
-
-        res.send("Email sent successfully")
     }
+}
+
+exports.renderOtpForm = (req,res)=>{
+    const email = req.query.email
+    res.render("otpForm",{email : email})
+}
+
+
+exports.handleOTP = async (req,res)=>{
+    const otp = req.body.otp
+    const email = req.params.id
+    if(!otp || !email){
+        return res.send("Please send email,otp")
+    }
+    const userData = await users.findAll({
+        where : {
+            email : email,
+            otp : otp
+        }
+    })
+
+    if(userData.length == 0){
+        res.send("Invalid OTP")
+    }else{
+        const currentTime = Data.now()  // current time
+        const otpGeneratedTime = userData[0].otpGeneratedTime  // past time
+        if(currentTime - otpGeneratedTime <= 120000){
+            res.send("Valid OTP")
+        }else{
+            res.send("OTP had been expired")
+        }
+    }
+    console.log(otp,email)
 }
