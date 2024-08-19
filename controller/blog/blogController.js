@@ -76,7 +76,7 @@ exports.singleBlog = async (req, res) => {
 
     console.log(blog)
 
-    res.render("singleBlog.ejs", { blog: blog, currentUser: req.user })
+    res.render("singleBlog.ejs", { blog: blog })
 }
 
 

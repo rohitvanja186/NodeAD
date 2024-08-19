@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser")
 // ROUTES HERE 
 const blogRoute = require("./routes/blogRoute")
 const authRoute = require("./routes/authRoute")
+const { decodeToken } = require("./services/decodeToken")
 
 
 // database connection
@@ -25,8 +26,16 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-app.use((req,res,next)=>{
+app.use(async(req,res,next)=>{
     res.locals.currentUser = req.cookies.token
+    const token = req.cookies.token
+    if(token){
+        const decryptedResult = await decodeToken(token,process.env.SECRETKEY)
+        if(decryptedResult && decryptedResult.id){
+            res.locals.currentUserId = decryptedResult.id
+        }
+    }
+
     next()
 })
 
